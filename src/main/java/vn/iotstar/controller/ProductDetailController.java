@@ -15,52 +15,47 @@ import vn.iotstar.dao.ProductDAO;
 import vn.iotstar.model.CategoryModel;
 import vn.iotstar.model.ProductModel;
 
-@WebServlet(urlPatterns = {"/product"})
-public class ProductController extends HttpServlet{
-	
+@WebServlet(urlPatterns = {"/productdetail"})
+public class ProductDetailController extends HttpServlet{
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		// Thiết lập tiếng việt
 		resp.setContentType("text/html");
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
-		
+
 		// Lấy tham số từ JSP
-		String categoryID = req.getParameter("cID");
-		
+		String productID = req.getParameter("pID");
+
 		// Khởi tạo DAO
 		ProductDAO productDAO = new ProductDAO();
 		CategoryDAO categoryDAO = new CategoryDAO();
-	
+
 		// Sử dụng đối tượng list để chưa danh sách từ ProductDAO
-		List<ProductModel> listProduct = productDAO.getAllProduct();
-		ProductModel product = productDAO.getLastProduct();
+		//List<ProductModel> listProduct = productDAO.getAllProduct();
+		
+		ProductModel product = productDAO.getProductByID(productID);
+		
 		List<CategoryModel> listCategory = categoryDAO.getAllCategory();
-		List<ProductModel> listProductByCategory = productDAO.getAllProductByCategory(categoryID);
-						
+
 		// Thiết lập dữ liệu lên JSP
-		req.setAttribute("lastProduct", product);
+		req.setAttribute("productDetail", product);
+		
 		req.setAttribute("listCategories", listCategory);
 		
-		if(categoryID.equals("All")) {
-			req.setAttribute("listAllProductByCategory", listProduct);
-		}
-		else {
-			req.setAttribute("listAllProductByCategory", listProductByCategory);
-		}
-		
-		req.setAttribute("activeCategory", categoryID);
-		
 		// Trả về trang JSP nào
-		RequestDispatcher rq = req.getRequestDispatcher("/views/product.jsp");
+		RequestDispatcher rq = req.getRequestDispatcher("/views/productdetail.jsp");
 		rq.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
+		super.doPost(req, resp);
 	}
+	
+	
 }

@@ -166,4 +166,28 @@ public class ProductDAO {
 
 		return list;
 	}
+	
+	// lấy sản phẩm theo productID
+	public ProductModel getProductByID(String productID) {
+		// Khai báo List để lưu danh sách SP
+		ProductModel product = null;
+
+		// Khai báo chuỗi truy vấn
+		String sql = "select * from Product\r\n"
+				+ "where ProductID = ?";
+		try {
+			conn = new DBConnection().getConnection();
+			ps = conn.prepareStatement(sql);
+			// gán giá trị cho dấu hỏi
+			ps.setString(1, productID);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				product = new ProductModel(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),
+						rs.getInt(6), rs.getInt(7), rs.getInt(8));
+			}
+		} catch (Exception e) {
+		}
+		return product;
+	}
 }
