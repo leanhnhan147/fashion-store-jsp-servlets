@@ -190,4 +190,35 @@ public class ProductDAO {
 		}
 		return product;
 	}
+
+	public List<ProductModel> searchByProductName(String txtSearch){
+		// Khai báo List để lưu danh sách SP
+		List<ProductModel> list = new ArrayList<ProductModel>();
+
+		// Khai báo chuỗi truy vấn
+		String sql = "select * from Product\r\n"
+				+ "where ProductName like ?";
+		try {
+			// mở kết nối database
+			conn = new DBConnection().getConnection();
+			// ném câu query qua sql
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, "%"+ txtSearch + "%");
+			// chạy query và nhận kết quả
+			rs = ps.executeQuery();
+			// lấy từ ResultSet đổ vào List
+			while (rs.next()) {
+				list.add(new ProductModel(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),
+						rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+			}
+		} catch (Exception e) {
+		}
+		return list;				
+	}
+	
+	public static void main(String[] args) {
+		ProductDAO dao = new ProductDAO();
+		List<ProductModel> list = dao.searchByProductName("áo");
+		System.out.println(list);
+	}
 }

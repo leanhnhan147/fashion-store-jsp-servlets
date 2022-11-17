@@ -39,4 +39,32 @@ public class CategoryDAO {
 		
 		return list;
 	}
+	
+	public List<CategoryModel> getAllCategoryByID(String categoryID){
+		
+		// Khai báo List để lưu danh sách SP
+		List<CategoryModel> list = new ArrayList<CategoryModel>();
+		
+		// Khai báo chuỗi truy vấn
+		String sql = "select * from Category\r\n"
+				+ "where CategoryID = ?";
+		
+		try {
+			// mở kết nối database
+			conn = new DBConnection().getConnection();
+			// ném câu query qua sql
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, categoryID);
+			// chạy query và nhận kết quả
+			rs = ps.executeQuery();
+			// lấy từ ResultSet đổ vào List
+			while(rs.next())
+			{
+				list.add(new CategoryModel(rs.getInt(1), rs.getString(2), rs.getString(3)));
+			}
+			
+		} catch (Exception e) {}
+		
+		return list;
+	}
 }

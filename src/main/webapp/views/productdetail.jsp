@@ -43,6 +43,9 @@
         <div class="col-12 col-lg-6 add_to_cart_block">
             <div class="card bg-light mb-3">
                 <div class="card-body">
+                	<h5 class="cname">Danh mục: ${categoryDetail.categoryName}</h5>
+                	<h5 class="pname">${productDetail.productName}</h5>
+                	
                     <p class="price">${productDetail.price} $</p>
                     <p class="price_discounted">149.90 $</p>
                     <form method="get" action="cart.html">

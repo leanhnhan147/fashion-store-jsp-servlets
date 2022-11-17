@@ -39,9 +39,22 @@
         <a class="nav-link " href="#">Contact</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    
+    <form action="search" class="form-inline my-2 my-lg-0">
+    	<div class="input-group input-group-sm">
+   			<input type="text" name="txtSearch" value="${txtSearch}" class="form-control" placeholder="Search...">
+   			<div class="input-group-append">
+   				<button type="submit" class="btn btn-secondary btn-number">
+   					<i class="fa fa-search"></i>
+   				</button>   			   			
+   			</div>
+      		<a class="btn btn-success btn-sm ml-3" href="cart.html">
+      			<i class="fa fa-shopping-cart"></i>
+      			Cart
+      			<span class="badge badge-light">3</span>    		
+      		</a>
+    	</div>
+    
     </form>
   </div>
 </nav>

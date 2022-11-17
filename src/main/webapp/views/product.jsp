@@ -43,7 +43,7 @@
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
                 <ul class="list-group category_block">
                 	<c:forEach items="${listCategories}" var="o">
-                    	<li class="list-group-item ${activeCategory==o.categoryID?"active":""}"><a href="product?cID=${o.categoryID}">${o.icons} ${o.categoryName}</a></li>
+                    	<li class="list-group-item "><a href="product?cID=${o.categoryID}">${o.icons} ${o.categoryName}</a></li>
                     </c:forEach>
                 </ul>
             </div>
@@ -58,30 +58,45 @@
             </div>
         </div>
         <div class="col">
-            <div class="row">
+            <div class="col">
             
-            	<c:forEach items ="${listAllProductByCategory}" var="p">
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="card">
-								<img class="card-img-top" src="${p.imageLink}"
-									alt="Card image cap">
-								<div class="card-body">
-									<h4 class="card-title">
-										<a href="productdetail?pID=${p.productID}" title="View Product">${p.productName}</a>
-									</h4>
-									<p class="card-text">${p.description}</p>
-									<div class="row">
-										<div class="col">
-											<p class="btn btn-danger btn-block">${p.price}$</p>
-										</div>
-										<div class="col">
-											<a href="#" class="btn btn-success btn-block">Add to cart</a>
+            	<c:forEach items="${listAllCategory}" var="c">
+					
+					<div class="card bg-light mb-3">
+					
+						<div class="card-header bg-primary text-white text-uppercase">${c.categoryName}</div>
+						<div class="card-body">
+							<div class="row">
+
+								<c:forEach items="${listAllProductByCategory}" var="p">
+									<c:if test="${c.categoryID == p.categoryID }">
+									<div class="col-12 col-md-6 col-lg-4">
+										<div class="card">
+											<img class="card-img-top" src="${p.imageLink}" alt="${p.productName}">
+											<div class="card-body">
+												<h4 class="card-title">
+													<a href="productdetail?pID=${p.productID}&cID=${p.categoryID}" title="View Product">${p.productName}</a>
+												</h4>
+												<p class="card-text">${p.description}</p>
+												<div class="row">
+													<div class="col">
+														<p class="btn btn-danger btn-block">${p.price}$</p>
+													</div>
+													<div class="col">
+														<a href="#" class="btn btn-success btn-block">Add to cart</a>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
+									</c:if>
+								</c:forEach>
+
 							</div>
 						</div>
-					</c:forEach>
+					</div>
+				</c:forEach>
+				
                 <div class="col-12">
                     <nav aria-label="...">
                         <ul class="pagination">

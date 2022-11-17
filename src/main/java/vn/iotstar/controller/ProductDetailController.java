@@ -29,20 +29,21 @@ public class ProductDetailController extends HttpServlet{
 
 		// Lấy tham số từ JSP
 		String productID = req.getParameter("pID");
-
+		String categoryID = req.getParameter("cID");
 		// Khởi tạo DAO
 		ProductDAO productDAO = new ProductDAO();
 		CategoryDAO categoryDAO = new CategoryDAO();
 
-		// Sử dụng đối tượng list để chưa danh sách từ ProductDAO
-		//List<ProductModel> listProduct = productDAO.getAllProduct();
-		
+		// Sử dụng đối tượng list để chưa danh sách từ ProductDAO			
 		ProductModel product = productDAO.getProductByID(productID);
+		
+		List<CategoryModel> listCategoryByID = categoryDAO.getAllCategoryByID(categoryID);
 		
 		List<CategoryModel> listCategory = categoryDAO.getAllCategory();
 
 		// Thiết lập dữ liệu lên JSP
 		req.setAttribute("productDetail", product);
+		req.setAttribute("categoryDetail", listCategoryByID.get(0));
 		
 		req.setAttribute("listCategories", listCategory);
 		

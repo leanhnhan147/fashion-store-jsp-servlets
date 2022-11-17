@@ -15,60 +15,43 @@ import vn.iotstar.dao.ProductDAO;
 import vn.iotstar.model.CategoryModel;
 import vn.iotstar.model.ProductModel;
 
-@WebServlet(urlPatterns = {"/product"})
-public class ProductController extends HttpServlet{
-	
+@WebServlet(urlPatterns = { "/search"})
+public class SearchController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		// Thiết lập tiếng việt
 		resp.setContentType("text/html");
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
-		
-		// Lấy tham số từ JSP
-		String categoryID = req.getParameter("cID");
+
+		// Lấy tham số từ JSP		
+		String txtSearch = req.getParameter("txtSearch");
 		
 		// Khởi tạo DAO
 		ProductDAO productDAO = new ProductDAO();
 		CategoryDAO categoryDAO = new CategoryDAO();
-	
+
 		// Sử dụng đối tượng list để chưa danh sách từ ProductDAO
-		List<ProductModel> listProduct = productDAO.getAllProduct();
 		ProductModel product = productDAO.getLastProduct();
 		List<CategoryModel> listCategory = categoryDAO.getAllCategory();
-		List<ProductModel> listProductByCategory = productDAO.getAllProductByCategory(categoryID);
-		List<CategoryModel> listCategoryByID = categoryDAO.getAllCategoryByID(categoryID);
-						
+		
+		List<ProductModel> listProduct = productDAO.searchByProductName(txtSearch);
+		
 		// Thiết lập dữ liệu lên JSP
 		req.setAttribute("lastProduct", product);
 		req.setAttribute("listCategories", listCategory);
+
+		req.setAttribute("listAllProductByCategory", listProduct);
+		req.setAttribute("listAllCategory", listCategory);
 		
-		if(categoryID.equals("All")) {
-			req.setAttribute("listAllProductByCategory", listProduct);
-		}
-		else {
-			req.setAttribute("listAllProductByCategory", listProductByCategory);
-		}
-		
-		if(categoryID.equals("All")) {
-			req.setAttribute("listAllCategory", listCategory);
-		}
-		else {
-			req.setAttribute("listAllCategory", listCategoryByID);
-		}
-		
-		req.setAttribute("activeCategory", categoryID);
+		req.setAttribute("txtSearch", txtSearch);	//hiện text mới search ở textSearch
 		
 		// Trả về trang JSP nào
 		RequestDispatcher rq = req.getRequestDispatcher("/views/product.jsp");
 		rq.forward(req, resp);
 	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
+
 }
